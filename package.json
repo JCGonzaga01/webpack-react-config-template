@@ -5,7 +5,8 @@
   "license": "MIT",
   "scripts": {
     "dev": "webpack-dev-server",
-    "build": "NODE_ENV=production && webpack -p"
+    "build": "NODE_ENV=production && webpack -p",
+    "deploy-gh": "yarn build && git subtree push --prefix dist origin gh-pages"
   },
   "babel": {
     "presets": [
