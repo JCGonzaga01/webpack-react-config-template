@@ -144,6 +144,8 @@ var config = {
     ],
   },
   plugins: [
+    // This will automatically deleted all files inside the 'output.path' directory
+    // Deletion will happen every after call of this webpack.config
     new CleanWebpackPlugin(),
     // This will automate the deployment of any changes from your project to dist/index.html
     new HtmlWebpackPlugin({
