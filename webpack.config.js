@@ -36,6 +36,7 @@ var webpack = require("webpack");
 var path = require("path");
 var HtmlWebpackPlugin = require("html-webpack-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
+// var TsconfigPathsPlugin = require("tsconfig-paths-webpack-plugin");
 
 var BUILD_DIR = path.join(__dirname, "dist");
 var APP_DIR = path.join(__dirname, "src");
@@ -76,6 +77,28 @@ var config = {
     filename: "[name].[hash].js",
     // Apply this for lazy loading support
     publicPath: "/",
+  },
+  // This options will help how modules will be resolved
+  resolve: {
+    // This omits the file extension when importing files
+    // e.g.
+    // FROM import component from './path/component.tsx'
+    // TO import component from './path/component;
+    extensions: [".ts", ".tsx", ".js", ".jsx", ".css", ".scss"],
+    // Assignment of absolute path
+    // FROM import files from '../path/files'
+    // TO import files from 'files'
+    modules: [path.resolve(__dirname, "src"), "node_modules"],
+    // This is to add tsconfig as part of module resolve.
+    // uncomment if will use TS
+    // plugins: [
+    //   new TsconfigPathsPlugin({
+    //     configFile: path.resolve(__dirname, "./tsconfig.json"),
+    //     extensions: [".ts", ".tsx", ".js", ".css", ".scss"],
+    //     logLevel: "INFO",
+    //     baseUrl: APP_DIR,
+    //   }),
+    // ],
   },
   devServer: {
     /** Though webpack-dev-server runs in memory to load the project in to the browser
@@ -135,7 +158,11 @@ var config = {
       },
       {
         test: /\.scss$/,
-        use: [{ loader: "style-loader" }, { loader: "css-loader" }, { loader: "sass-loader" }],
+        use: [
+          { loader: "style-loader" },
+          { loader: "css-loader" },
+          { loader: "sass-loader" },
+        ],
       },
       {
         test: /\.(jpe?g|png|gif|svg)$/i,
