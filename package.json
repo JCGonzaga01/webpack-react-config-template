@@ -1,12 +1,12 @@
 {
-  "name": "WebpackReactConfig",
+  "name": "webpackreactconfig",
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
   "scripts": {
     "dev": "webpack-dev-server",
-    "build": "NODE_ENV=production && webpack -p",
-    "deploy-gh": "yarn build && git subtree push --prefix dist origin gh-pages"
+    "build": "rimraf ./build && NODE_ENV=production && webpack -p",
+    "deploy": "gh-pages -d build"
   },
   "babel": {
     "presets": [
@@ -29,11 +29,14 @@
     "clean-webpack-plugin": "^3.0.0",
     "css-loader": "^4.2.1",
     "file-loader": "^6.0.0",
+    "gh-pages": "^3.1.0",
     "html-webpack-plugin": "^4.3.0",
     "image-webpack-loader": "^6.0.0",
     "node-sass": "^4.14.1",
+    "rimraf": "^3.0.2",
     "sass-loader": "^9.0.3",
     "style-loader": "^1.2.1",
+    "tsconfig-paths-webpack-plugin": "^3.3.0",
     "webpack": "^4.44.1",
     "webpack-cli": "^3.3.12",
     "webpack-dev-middleware": "^3.7.2",

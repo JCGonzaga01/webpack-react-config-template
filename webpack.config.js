@@ -6,14 +6,14 @@
 // };
 
 /** "http-server"
- * scripts: "http-server": "http-server dist/",
- * This library is used to constantly served the files in "dist" folder
+ * scripts: "http-server": "http-server build/",
+ * This library is used to constantly served the files in "build" folder
  * to an http server into our browser.
  * This will automaticay load all changes from the specified folder,
- * in our example the "dist" folder.
+ * in our example the "build" folder.
  *
  * The problem with this is that, webpack and http-server is in
- * different process. we must update the dist folder via webpack
+ * different process. we must update the build folder via webpack
  * then http-server will read it.
  *
  * You can use this if you just want to serve your project to the browser.
@@ -34,10 +34,11 @@
 
 var webpack = require("webpack");
 var path = require("path");
+var TsconfigPathsPlugin = require("tsconfig-paths-webpack-plugin");
 var HtmlWebpackPlugin = require("html-webpack-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 
-var BUILD_DIR = path.join(__dirname, "dist");
+var BUILD_DIR = path.join(__dirname, "build");
 var APP_DIR = path.join(__dirname, "src");
 
 const VENDOR_LIBS = ["react", "react-dom", "react-router-dom"];
@@ -53,7 +54,7 @@ var config = {
   // },
   output: {
     // Apply this for lazy loading support
-    path: path.resolve(__dirname, "dist"),
+    path: path.resolve(__dirname, "build"),
     // path: BUILD_DIR,
 
     /** "Chunkhash" is used to make sure to reload file whenever we have changes
@@ -76,6 +77,28 @@ var config = {
     filename: "[name].[hash].js",
     // Apply this for lazy loading support
     publicPath: "/",
+  },
+  // This options will help how modules will be resolved
+  resolve: {
+    // This omits the file extension when importing files
+    // e.g.
+    // FROM import component from './path/component.tsx'
+    // TO import component from './path/component;
+    extensions: [".ts", ".tsx", ".js", ".jsx", ".css", ".scss"],
+    // Assignment of absolute path
+    // FROM import files from '../path/files'
+    // TO import files from 'files'
+    modules: [path.resolve(__dirname, "src"), "node_modules"],
+    // This is to add tsconfig as part of module resolve.
+    // uncomment if will use TS
+    // plugins: [
+    //   new TsconfigPathsPlugin({
+    //     configFile: path.resolve(__dirname, "./tsconfig.json"),
+    //     extensions: [".ts", ".tsx", ".js", ".css", ".scss"],
+    //     logLevel: "INFO",
+    //     baseUrl: APP_DIR,
+    //   }),
+    // ],
   },
   devServer: {
     /** Though webpack-dev-server runs in memory to load the project in to the browser
@@ -147,7 +170,7 @@ var config = {
     // This will automatically delete all files inside the 'output.path' directory
     // Deletion will happen every after call of this webpack.config
     new CleanWebpackPlugin(),
-    // This will automate the deployment of any changes from your project to dist/index.html
+    // This will automate the deployment of any changes from your project to build/index.html
     new HtmlWebpackPlugin({
       template: APP_DIR + "/index.html",
     }),
