@@ -37,7 +37,6 @@ var path = require("path");
 var TsconfigPathsPlugin = require("tsconfig-paths-webpack-plugin");
 var HtmlWebpackPlugin = require("html-webpack-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
-// var TsconfigPathsPlugin = require("tsconfig-paths-webpack-plugin");
 
 var BUILD_DIR = path.join(__dirname, "build");
 var APP_DIR = path.join(__dirname, "src");
@@ -159,11 +158,7 @@ var config = {
       },
       {
         test: /\.scss$/,
-        use: [
-          { loader: "style-loader" },
-          { loader: "css-loader" },
-          { loader: "sass-loader" },
-        ],
+        use: [{ loader: "style-loader" }, { loader: "css-loader" }, { loader: "sass-loader" }],
       },
       {
         test: /\.(jpe?g|png|gif|svg)$/i,
