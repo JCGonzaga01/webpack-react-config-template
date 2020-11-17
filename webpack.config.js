@@ -75,7 +75,11 @@ var config = {
      * if going to build for production, change it to "chuckhash"
      */
     filename: "[name].[hash].js",
-    // Apply this for lazy loading support
+    // Apply this for lazy loading support and for the default path of optimized js files
+    // If you will deploy a project with custom domain.
+    // e.g. mypersonalsite.com/projectIsHere
+    // you must update publicPath accordingly.
+    // e.g. publicPath: "/projectIsHere"
     publicPath: "/",
   },
   // This options will help how modules will be resolved
