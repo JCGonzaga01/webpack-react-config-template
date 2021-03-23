@@ -157,16 +157,40 @@ var config = {
         // },
       },
       {
-        test: /\.css$/,
-        use: [{ loader: "style-loader" }, { loader: "css-loader" }],
-      },
-      {
-        test: /\.scss$/,
-        use: [{ loader: "style-loader" }, { loader: "css-loader" }, { loader: "sass-loader" }],
+        test: /\.s[ac]ss$/i,
+        use: [
+          { loader: "style-loader" },
+          {
+            loader: "css-loader",
+            options: {
+              modules: {
+                localIdentName: "[local]___[hash:base64:5]",
+              },
+              sourceMap: true,
+            },
+          },
+          { loader: "sass-loader" },
+        ],
       },
       {
         test: /\.(jpe?g|png|gif|svg)$/i,
-        use: "file-loader",
+        use: [
+          {
+            loader: "file-loader",
+            options: {
+              name: "[name].[hash].[ext]",
+              outputPath: "assets",
+              publicPath: "assets",
+            },
+          },
+          {
+            loader: "image-webpack-loader",
+            options: {
+              bypassOnDebug: true,
+              disable: true,
+            },
+          },
+        ],
       },
     ],
   },
